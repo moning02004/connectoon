@@ -9,7 +9,9 @@ class LoginView extends React.Component {
         this.state = {
             username: '',
             password: '',
-            valid: false
+            valid: false,
+
+            message: ''
         }
     }
     handleChange = (e) => {
@@ -31,6 +33,10 @@ class LoginView extends React.Component {
         this.props.onSubmit(username, password).then( () => {
             if (this.props.status === "SUCCESS") {
                 window.location.replace('/')
+            } else if (this.props.status === "FAILURE") {
+                this.setState({
+                    message: '해당 계정을 찾을 수 없습니다.'
+                })
             }
         });
     }
@@ -61,6 +67,7 @@ class LoginView extends React.Component {
                             label="비밀번호를 입력해주세요."
                             name="password" onChange={this.handleChange} value={this.state.password}/>
                     </Box>
+                    <span>{this.state.message}</span>
                     <Box style={{marginTop: '60px'}}>
                         <Button fullWidth disabled={!this.state.enable} onClick={this.handleSubmit}
                             style={{backgroundColor: '#43e39f', color: 'white', marginBottom: '10px', padding: '16px'}}>로그인</Button>
